@@ -24,7 +24,33 @@ plt.ylabel('Value')
 plt.legend()
 plt.show()
 
+# 데이터 스케일링
+scaler = MinMaxScaler(feature_range=(0, 1))
+scaled_data = scaler.fit_transform(merged_df[['Exchange_Rate', 'Closing_Price']])
 
-model.add(LSTM(units=100, return_sequences=True))  # 추가 LSTM 레이어
-model.add(LSTM(units=50))  # 기존 LSTM 뒤에 추가
+# LSTM 입력 준비 (이전 10일 데이터를 사용하여 다음날 예측)
+X, y = [], []
+for i in range(10, len(scaled_data)):
+    X.append(scaled_data[i-10:i])
+    y.append(scaled_data[i, 1])  # KOSPI 지수 예측
+
+X, y = np.array(X), np.array(y)
+
+# LSTM 모델 정의
+model = Sequential()
+model.add(LSTM(units=100, return_sequences=True, input_shape=(X.shape[1], X.shape[2])))  # 추가 LSTM 레이어
+model.add(LSTM(units=50, return_sequences=True, dropout=0.2, recurrent_dropout=0.2))  # 기존 LSTM 뒤에 추가
 model.add(Dense(1))  # 출력 레이어
+
+
+
+model.compile(optimizer='adam', loss='mean_squared_error')
+model.fit(X, y, epochs=100, batch_size=64)
+
+# 예측 결과 시각화
+predictions = model.predict(X)
+plt.figure(figsize=(12, 6))
+plt.plot(y, label='True KOSPI Price')
+plt.plot(predictions, label='Predicted KOSPI Price')
+plt.legend()
+plt.show()
