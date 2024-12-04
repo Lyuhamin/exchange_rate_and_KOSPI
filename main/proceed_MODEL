@@ -1,3 +1,30 @@
+#모델링 및 실험
+
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import MinMaxScaler
+import tensorflow as tf
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import LSTM, Dense
+import numpy as np
+
+# 데이터 병합 및 전처리
+exchange_rate_df = pd.read_csv("C:/Users/유하민/git/exchange_rate_and_KOSPI/data/processed/processed_exchange_rate_data.csv")
+kospi_data_df = pd.read_csv("C:/Users/유하민/git/exchange_rate_and_KOSPI/data/processed/processed_kospi_data.csv")
+
+merged_df = pd.merge(exchange_rate_df, kospi_data_df, on='Date', how='inner')
+merged_df = merged_df.sort_values(by='Date')
+
+# 시계열 데이터 시각화
+plt.figure(figsize=(12, 6))
+plt.plot(merged_df['Date'], merged_df['Exchange_Rate'], label='Exchange Rate')
+plt.plot(merged_df['Date'], merged_df['Closing_Price'], label='KOSPI Closing Price')
+plt.xlabel('Date')
+plt.ylabel('Value')
+plt.legend()
+plt.show()
+
+
 model.add(LSTM(units=100, return_sequences=True))  # 추가 LSTM 레이어
 model.add(LSTM(units=50))  # 기존 LSTM 뒤에 추가
 model.add(Dense(1))  # 출력 레이어
