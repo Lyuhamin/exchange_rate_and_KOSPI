@@ -1,0 +1,3 @@
+model.add(LSTM(units=100, return_sequences=True))  # 추가 LSTM 레이어
+model.add(LSTM(units=50))  # 기존 LSTM 뒤에 추가
+model.add(Dense(1))  # 출력 레이어
