@@ -55,14 +55,14 @@ model = Sequential([
 model.compile(optimizer='adam', loss='mean_squared_error')
 
 # 모델 학습
-model.fit(X, y, epochs=30, batch_size=32, verbose=0)
+model.fit(X, y, epochs=50, batch_size=32, verbose=0)
 
 # 평일 예측
 predictions = []
 current_input = X[-1]
 dates = []
 current_date = pd.Timestamp("2024-12-06")
-days_to_predict = 7
+days_to_predict = 14
 
 while len(dates) < days_to_predict:
     if current_date.weekday() < 5:  # 평일만 예측
