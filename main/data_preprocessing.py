@@ -4,8 +4,9 @@ import pandas as pd
 import os
 
 # CSV 파일 경로 지정
-exchange_rate_file_path = "C:/Users/유하민/git/exchange_rate_and_KOSPI/data/raw_data/exchage_rate_221205_241203.csv"
-kospi_data_file_path = "C:/Users/유하민/git/exchange_rate_and_KOSPI/data/raw_data/KOSPI_data_221205_241203.csv"
+exchange_rate_file_path = "C:/Users/유하민/git/exchange_rate_and_KOSPI/data/raw_data/exchange_rate_data_221212_141211.csv"
+kospi_data_file_path = "C:/Users/유하민/git/exchange_rate_and_KOSPI/data/raw_data/KOSPI_data_221212_241211.csv"
+
 
 # 데이터 읽기
 exchange_rate_df = pd.read_csv(exchange_rate_file_path)
