@@ -1,8 +1,10 @@
 <딥러닝 프로젝트>
 주제: Exchange rate and KOSPI
 
-데이터셋: https://ecos.bok.or.kr/#/SearchStat #한국은행경제통계시스템
+<데이터셋>
+https://ecos.bok.or.kr/#/SearchStat #한국은행경제통계시스템
 http://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC0201010103  # KRX 정보데이터시스템
+
 
 
 환율과 코스피의 상관관계를 시계열 데이터와 클레스터링을 통해 알아보고 코스피의 당일 등락을 맞추어 보는 것을 목표로 합니다.
