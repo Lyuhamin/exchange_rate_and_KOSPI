@@ -41,8 +41,8 @@ scaled_data = np.concatenate((scaled_exchange_rate, scaled_closing_price, scaled
 # 모델 입력 준비
 # Lookback 기간 사용해 입력 데이터를 준비
 X, y = [], []
-for i in range(250, len(scaled_data)):
-    X.append(scaled_data[i-300:i])  # 데이터를 입력으로 사용
+for i in range(180, len(scaled_data)):
+    X.append(scaled_data[i-180:i])  # 데이터를 입력으로 사용
     y.append(scaled_closing_price[i])  # 해당 시점의 종가를 출력으로 사용
 
 X, y = np.array(X), np.array(y)
@@ -50,19 +50,19 @@ X, y = np.array(X), np.array(y)
 # Transformer 모델 정의
 input_layer = Input(shape=(X.shape[1], X.shape[2]))  # 입력 데이터의 형상 정의
 x = input_layer
-for _ in range(2):  # Multi-Head Attention Layer를 2번 반복
+for _ in range(1):  # Multi-Head Attention Layer를 2번 반복
     x = MultiHeadAttention(num_heads=8, key_dim=32)(x, x)  # Multi-Head Attention Layer
     x = LayerNormalization(epsilon=1e-6)(x)  # Layer Normalization
     x = Dropout(0.2)(x)  # Dropout for Regularization
 x = GlobalAveragePooling1D()(x)  # Global Average Pooling
 x = Dense(100, activation='relu')(x)  # Dense Layer with ReLU Activation
-x = Dropout(0.2)(x)  # Dropout for Regularization
+x = Dropout(0.5)(x)  # Dropout for Regularization
 output_layer = Dense(1)(x)  # 출력 Layer
 
 model = Model(inputs=input_layer, outputs=output_layer)  # 모델 정의
 
 # 옵티마이저 설정 (학습률 조정)
-learning_rate = 0.0001  # 학습률 설정
+learning_rate = 0.0002  # 학습률 설정
 optimizer = Adam(learning_rate=learning_rate)
 
 # 모델 컴파일
@@ -72,7 +72,7 @@ model.compile(optimizer=optimizer, loss='mean_squared_error')
 early_stopping = EarlyStopping(monitor='loss', patience=10, restore_best_weights=True)
 
 # 모델 학습
-model.fit(X, y, epochs=100, batch_size=32, verbose=1, callbacks=[early_stopping])
+model.fit(X, y, epochs=500, batch_size=64, verbose=0, callbacks=[early_stopping])
 
 # 평일 예측
 predictions = []
@@ -80,7 +80,7 @@ current_input = X[-1]  # 가장 최근 데이터로 시작
 
 # 예측 날짜 리스트 초기화
 dates = []
-current_date = pd.Timestamp("2024-12-11")  # 예측 시작 날짜 설정
+current_date = pd.Timestamp("2024-12-10")  # 예측 시작 날짜 설정
 days_to_predict = 14  # 예측할 평일 수
 
 # 평일만 예측하는 루프
