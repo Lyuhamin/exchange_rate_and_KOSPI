@@ -6,10 +6,9 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM, Dense
 import os
 
-# 데이터 병합 및 전처리
-exchange_rate_df = pd.read_csv("C:/Users/유하민/git/exchange_rate_and_KOSPI/data/processed/processed_exchange_rate_data.csv")
-kospi_data_df = pd.read_csv("C:/Users/유하민/git/exchange_rate_and_KOSPI/data/processed/processed_kospi_data.csv")
-market_interest_rate_df = pd.read_csv("C:/Users/유하민/git/exchange_rate_and_KOSPI/data/processed/market_interest_rate_processed.csv")
+exchange_rate_df = pd.read_csv("D:/git/exchange_rate_and_KOSPI/data/processed/processed_exchange_rate_data.csv")
+kospi_data_df = pd.read_csv("D:/git/exchange_rate_and_KOSPI/data/processed/processed_kospi_data.csv")
+market_interest_rate_df = pd.read_csv("D:/git/exchange_rate_and_KOSPI/data/processed/market_interest_rate_processed.csv")
 
 # Date 컬럼을 datetime 형식으로 변환
 exchange_rate_df['Date'] = pd.to_datetime(exchange_rate_df['Date'])
