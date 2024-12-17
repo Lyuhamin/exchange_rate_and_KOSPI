@@ -1,3 +1,5 @@
+#가장 잘 되는 최종 모델
+
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
@@ -51,7 +53,7 @@ for col, scaler in scalers.items():
     scaled_data.append(scaled)
 
 scaled_data = np.concatenate(scaled_data, axis=1)
-scaled_data[:, 1] *= 4.0  # KOSPI 종가에 가중치 부여
+scaled_data[:, 1] *= 2.0  # KOSPI 종가에 가중치 부여
 scaled_closing_price = scalers['Closing_Price'].transform(merged_df[['Closing_Price']])
 
 # 모델 입력 준비
@@ -85,7 +87,7 @@ output_layer = Dense(1)(x)
 model = Model(inputs=input_layer, outputs=output_layer)
 
 # 모델 컴파일
-learning_rate = 0.0001
+learning_rate = 0.0002
 optimizer = Adam(learning_rate=learning_rate)
 model.compile(optimizer=optimizer, loss='mean_squared_error')
 
@@ -93,7 +95,7 @@ model.compile(optimizer=optimizer, loss='mean_squared_error')
 early_stopping = EarlyStopping(monitor='val_loss', patience=15, restore_best_weights=True)
 reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=5, min_lr=1e-6)
 
-history = model.fit(X, y, epochs=150, batch_size=32, validation_split=0.2, verbose=1, callbacks=[early_stopping, reduce_lr])
+history = model.fit(X, y, epochs=150, batch_size=32, validation_split=0.2, verbose=0, callbacks=[early_stopping, reduce_lr])
 
 # 예측 수행
 predictions = []
