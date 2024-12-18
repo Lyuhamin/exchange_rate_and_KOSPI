@@ -56,7 +56,7 @@ scaled_data = np.concatenate(scaled_data, axis=1)
 scaled_data[:, 1] *= 2.0  # KOSPI 종가에 가중치 부여
 scaled_closing_price = scalers['Closing_Price'].transform(merged_df[['Closing_Price']])
 
-# 모델 입력 준비
+# 모델 입력 준비 lookback data
 lookback = 200
 X, y = [], []
 for i in range(lookback, len(scaled_data)):
